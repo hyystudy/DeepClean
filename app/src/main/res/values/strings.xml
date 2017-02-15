@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DeepClean</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="a1p">"Turn it on will help GO Battery stop apps to extend your battery life.
+If you receieved any warning about privacy ,please ignore it.Because we use accessibility service to optimize your device only."</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.abclauncher.deepclean.MaterialRippleLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:mrl_rippleColor="@color/ripple_color_light"
+    android:background="#22ffffff"
+    app:mrl_rippleDuration="500"
+    app:mrl_rippleAlpha="0.05"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingBottom="4dp"
+    android:paddingTop="4dp"
+    app:mrl_ripple_background_allowed="false">
+    <LinearLayout
+        android:id="@+id/hide_system_spp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
+            android:background="@android:color/transparent"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="hide system apps"
+            android:textSize="14sp"
+            android:layout_marginLeft="8dp"
+            android:textColor="#f2ffffff"/>
+    </LinearLayout>
+</com.abclauncher.deepclean.MaterialRippleLayout>
