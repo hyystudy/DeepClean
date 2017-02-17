@@ -69,7 +69,7 @@ public class RankActivity extends BaseActivity implements RankDao.AllAppsLoadedL
                     Log.d(TAG, "run: " + currentPosition);
                     if (currentPosition < appInfos.size()){
                         showPackageDetail(appInfos.get(currentPosition).pkgName);
-                        mHandler.sendEmptyMessageDelayed(CLEAN_APP, 3000);
+                        mHandler.sendEmptyMessageDelayed(CLEAN_APP, 2000);
                         currentPosition++;
                     } else {
                         WindowUtils.hidePopupWindow();
@@ -84,26 +84,10 @@ public class RankActivity extends BaseActivity implements RankDao.AllAppsLoadedL
     @OnClick(R.id.clean_btn)
     public void onCleanBtnClicked(){
         if (AccessibilityUtils.isAccessibilitySettingsOn(getApplicationContext())) {
-            WindowUtils.showPopupWindow(getApplicationContext());
+            //WindowUtils.showPopupWindow(getApplicationContext());
+            DeepCleanAccessibilityService.INVOKE_TYPE = DeepCleanAccessibilityService.TYPE_KILL_APP;
             mHandler.sendEmptyMessageDelayed(CLEAN_APP, 50);
-         /*   new Thread(new Runnable() {
-                @Override
-                public void run() {*/
-                 /*   while (currentPosition < appInfos.size()){
-
-                        try {
-                            Thread.sleep(1000);
-                            currentPosition++;
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    if (currentPosition == appInfos.size()){
-
-                    }*/
-               // }
-            //}).start();
+            //showPackageDetail("com.qihoo.security");
         } else {
             startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
         }
@@ -215,6 +199,7 @@ public class RankActivity extends BaseActivity implements RankDao.AllAppsLoadedL
 
     @Override
     protected void onDestroy() {
+        Log.d(TAG, "onDestroy: ");
         super.onDestroy();
         RankDao.getInstance(getApplicationContext()).cleanData();
     }

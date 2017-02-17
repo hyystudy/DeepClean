@@ -57,17 +57,20 @@ public class WindowUtils {
 
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
 
+        params.flags = LayoutParams.FLAG_NOT_TOUCH_MODAL
+                | LayoutParams.FLAG_NOT_FOCUSABLE
+                | LayoutParams.FLAG_SHOW_WHEN_LOCKED;
         // 类型
-        params.type = LayoutParams.TYPE_PHONE;
+        params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
 
         // WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
 
         // 设置flag
 
-        int flags = WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
+        //int flags = WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
         // | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
         // 如果设置了WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE，弹出的View收不到Back键的事件
-        params.flags = flags;
+        //params.flags = flags;
         // 不设置这个弹出框的透明遮罩显示为黑色
         params.format = PixelFormat.TRANSLUCENT;
         // FLAG_NOT_TOUCH_MODAL不阻塞事件传递到后面的窗口

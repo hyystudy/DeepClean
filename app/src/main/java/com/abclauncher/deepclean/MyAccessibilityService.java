@@ -25,7 +25,7 @@ public class MyAccessibilityService  extends AccessibilityService{
         if (accessibilityEvent.getSource() != null) {
             Log.d(TAG, "onAccessibilityEvent: " + accessibilityEvent.getPackageName());
             if (accessibilityEvent.getPackageName().equals("com.android.settings")) {
-                List<AccessibilityNodeInfo> stop_nodes = accessibilityEvent.getSource().findAccessibilityNodeInfosByViewId("com.android.settings:id/left_button");
+                List<AccessibilityNodeInfo> stop_nodes = accessibilityEvent.getSource().findAccessibilityNodeInfosByViewId("com.android.settings:id/right_button");
                 if (stop_nodes!=null){
                     Log.d(TAG, "onAccessibilityEvent: " + stop_nodes.size());
                 }
@@ -53,11 +53,11 @@ public class MyAccessibilityService  extends AccessibilityService{
                 }
                 if (ok_nodes!=null && !ok_nodes.isEmpty()) {
                     AccessibilityNodeInfo node;
+                    Log.d(TAG, "ok size" + ok_nodes.size());
                     for(int i=0; i<ok_nodes.size(); i++){
                         node = ok_nodes.get(i);
                         if (node.getClassName().equals("android.widget.Button")) {
                             node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                            Log.d(TAG, "click ok");
                         }
                         node.recycle();
                     }
@@ -69,12 +69,12 @@ public class MyAccessibilityService  extends AccessibilityService{
     @Override
     protected void onServiceConnected() {
         Log.d(TAG, "onServiceConnected: ");
-        AccessibilityServiceInfo serviceInfo = new AccessibilityServiceInfo();
+      /*  AccessibilityServiceInfo serviceInfo = new AccessibilityServiceInfo();
         serviceInfo.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;
         serviceInfo.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
         serviceInfo.packageNames = new String[]{"com.android.settings"};
         serviceInfo.notificationTimeout=100;
-        setServiceInfo(serviceInfo);
+        setServiceInfo(serviceInfo);*/
         super.onServiceConnected();
     }
 
