@@ -2,7 +2,7 @@
 <accessibility-service android:description="@string/a1p"
     android:settingsActivity=""
     android:accessibilityEventTypes="typeViewFocused|typeWindowContentChanged|typeWindowStateChanged"
-    android:packageNames="com.android.settings"
+    android:packageNames="com.android.settings,com.android.packageinstaller"
     android:accessibilityFeedbackType="feedbackVisual"
     android:notificationTimeout="200"
     android:accessibilityFlags="flagDefault"

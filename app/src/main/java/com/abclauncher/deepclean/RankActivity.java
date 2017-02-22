@@ -66,14 +66,7 @@ public class RankActivity extends BaseActivity implements RankDao.AllAppsLoadedL
         public boolean handleMessage(Message message) {
             switch (message.what){
                 case CLEAN_APP:
-                    Log.d(TAG, "run: " + currentPosition);
-                    if (currentPosition < appInfos.size()){
-                        showPackageDetail(appInfos.get(currentPosition).pkgName);
-                        mHandler.sendEmptyMessageDelayed(CLEAN_APP, 2000);
-                        currentPosition++;
-                    } else {
-                        WindowUtils.hidePopupWindow();
-                    }
+                    WindowUtils.hidePopupWindow();
                     break;
             }
             return false;
@@ -85,9 +78,9 @@ public class RankActivity extends BaseActivity implements RankDao.AllAppsLoadedL
     public void onCleanBtnClicked(){
         if (AccessibilityUtils.isAccessibilitySettingsOn(getApplicationContext())) {
             //WindowUtils.showPopupWindow(getApplicationContext());
-            DeepCleanAccessibilityService.INVOKE_TYPE = DeepCleanAccessibilityService.TYPE_KILL_APP;
-            mHandler.sendEmptyMessageDelayed(CLEAN_APP, 50);
-            //showPackageDetail("com.qihoo.security");
+            //mHandler.sendEmptyMessageDelayed(CLEAN_APP, appInfos.size() * 2000);
+            MyAccessibilityService myAccessibilityService = MyAccessibilityService.getInstance();
+            myAccessibilityService.setStopApps(appInfos);
         } else {
             startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
         }
@@ -202,6 +195,9 @@ public class RankActivity extends BaseActivity implements RankDao.AllAppsLoadedL
         Log.d(TAG, "onDestroy: ");
         super.onDestroy();
         RankDao.getInstance(getApplicationContext()).cleanData();
+
+        /*Intent intent = new Intent(getApplicationContext(), RankActivity.class);
+        startActivity(intent);*/
     }
 
 
