@@ -66,7 +66,20 @@ public class RankActivity extends BaseActivity implements RankDao.AllAppsLoadedL
         public boolean handleMessage(Message message) {
             switch (message.what){
                 case CLEAN_APP:
-                    WindowUtils.hidePopupWindow();
+                    Log.d(TAG, "run: " + currentPosition);
+                    if (currentPosition < appInfos.size()){
+                        try {
+                            showPackageDetail(appInfos.get(currentPosition).pkgName);
+                        }catch (Exception e){
+                            Log.d(TAG, "handleMessage: " + e.getMessage());
+                        }
+
+                        mHandler.sendEmptyMessageDelayed(CLEAN_APP, 2000);
+                        currentPosition++;
+                    } else {
+                        MyAccessibilityService.getInstance().setCanStopApp(false);
+                        WindowUtils.hidePopupWindow();
+                    }
                     break;
             }
             return false;
@@ -77,10 +90,12 @@ public class RankActivity extends BaseActivity implements RankDao.AllAppsLoadedL
     @OnClick(R.id.clean_btn)
     public void onCleanBtnClicked(){
         if (AccessibilityUtils.isAccessibilitySettingsOn(getApplicationContext())) {
-            //WindowUtils.showPopupWindow(getApplicationContext());
+            WindowUtils.showPopupWindow(getApplicationContext());
+            MyAccessibilityService.getInstance().setCanStopApp(true);
+            mHandler.sendEmptyMessageDelayed(CLEAN_APP, 50);
             //mHandler.sendEmptyMessageDelayed(CLEAN_APP, appInfos.size() * 2000);
-            MyAccessibilityService myAccessibilityService = MyAccessibilityService.getInstance();
-            myAccessibilityService.setStopApps(appInfos);
+          /*  MyAccessibilityService myAccessibilityService = MyAccessibilityService.getInstance();
+            myAccessibilityService.setStopApps(appInfos);*/
         } else {
             startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
         }

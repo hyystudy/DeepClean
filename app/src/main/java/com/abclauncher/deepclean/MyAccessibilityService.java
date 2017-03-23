@@ -2,12 +2,7 @@ package com.abclauncher.deepclean;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
@@ -22,38 +17,12 @@ import java.util.List;
 public class MyAccessibilityService  extends AccessibilityService{
     private static final String TAG = "MyAccessibilityService";
     public static boolean CAN_STOP_APP = false;
-    private final int CLEAN_APP = 1;
     public static MyAccessibilityService mInstance;
-
-    private Handler mHandler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message message) {
-            switch (message.what){
-                case CLEAN_APP:
-                    Log.d(TAG, "run: " + currentPosition);
-                    if (currentPosition < appInfos.size()){
-                        try {
-                            showPackageDetail(appInfos.get(currentPosition).pkgName);
-                        }catch (Exception e){
-                            Log.d(TAG, "handleMessage: " + e.getMessage());
-                        }
-
-                        mHandler.sendEmptyMessageDelayed(CLEAN_APP, 2000);
-                        currentPosition++;
-                    } /*else {
-                        //WindowUtils.hidePopupWindow();
-                    }*/
-                    break;
-            }
-            return false;
-        }
-    });
-    private List<AppInfo> appInfos;
-    private int currentPosition;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
+        if (!CAN_STOP_APP) return;
         Log.d(TAG, "onAccessibilityEvent: ");
         try {
             if (null == accessibilityEvent || null == accessibilityEvent.getSource()) {
@@ -130,24 +99,15 @@ public class MyAccessibilityService  extends AccessibilityService{
         return mInstance;
     }
 
+    public void setCanStopApp(boolean value){
+        CAN_STOP_APP = value;
+    }
+
     @Override
     public void onInterrupt() {
         Log.d(TAG, "onInterrupt: ");
     }
 
-    public void setStopApps(List<AppInfo> appInfos){
-        currentPosition = 0;
-        this.appInfos = appInfos;
-        mHandler.sendEmptyMessageDelayed(CLEAN_APP, 50);
 
-    }
 
-    private void showPackageDetail(String packageName){
-        Intent intent = new Intent();
-        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Uri uri = Uri.fromParts("package", packageName, null);
-        intent.setData(uri);
-        startActivity(intent);
-    }
 }

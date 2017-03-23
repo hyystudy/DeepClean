@@ -61,7 +61,7 @@ public class WindowUtils {
                 | LayoutParams.FLAG_NOT_FOCUSABLE
                 | LayoutParams.FLAG_SHOW_WHEN_LOCKED;
         // 类型
-        params.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        params.type = WindowManager.LayoutParams.TYPE_TOAST;
 
         // WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
 
